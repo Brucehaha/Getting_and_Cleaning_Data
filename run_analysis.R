@@ -58,6 +58,11 @@ subjectTest<- rename(subjectTest, subject = V1)        ##change the column name
 xyTest <- cbind(subjectTest, xyTest)
 
 
-##------3. combine train dataset and test data set
+##------3. Merges the training and the test sets to create one data set.
 data <-rbind(xyTrain, xyTest)
-nrow(data)
+
+##------4. Extracts only the measurements on the mean and standard deviation for each measurement.
+
+x <- grep("[Mm]ean|[Ss]td|activity|subject", colnames(data))
+data <- data[,x]
+ 
