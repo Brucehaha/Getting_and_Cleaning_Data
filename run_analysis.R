@@ -6,9 +6,9 @@ readMe
 ##browsing trainning data
 ## get feature info
 featuresInfo <- readLines("features_info.txt")
+list.files("./test")
 
-
-
+nrow(xyTrain)
 
 ##------2. Merge training data
 
@@ -34,4 +34,30 @@ subject <- rename(subject, subject = V1)        ##change the column name
 ##final dataset for training dataset
 xyTrain <- cbind(subject, xyTrain)
 
+nrow(xyTrain)
 
+##------3. Merge test data
+
+actLables <- read.table("activity_labels.txt")  ## get labels
+yTest <- read.table("./test/y_test.txt")     ## extract y_test
+activity <- merge(yTest, actLables,by = "V1", all = FALSE)$V2
+
+
+## combine activity and x_test
+xTest <- read.table("./test/X_test.txt")
+features <- read.table("features.txt")
+newNames <- features[[2]]  
+colnames(xTest) <- newNames      ##change column name of xTest
+xyTest <- cbind(activity, xTest)
+
+## merge xyTest and subject
+subjectTest<- read.table("./test/subject_test.txt")      ## subjective list
+subjectTest<- rename(subjectTest, subject = V1)        ##change the column name        
+
+##final dataset for test dataset
+xyTest <- cbind(subjectTest, xyTest)
+
+
+##------3. combine train dataset and test data set
+data <-rbind(xyTrain, xyTest)
+nrow(data)
