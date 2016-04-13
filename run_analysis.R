@@ -65,8 +65,9 @@ run.analysis <- function(dir) {
                 ## Test activity --- merge y_train with activity_labels and get the train activity name vector
                         ## with 2947 obs. of 1 vars
                         test.y <- read.table("./test/y_test.txt")
-                        ## with 2947 activity obs. of 1 vars. As actLables is a factor, which need to be transfered to data frame
-                        test.activity <- data.frame(merge(test.y, actLables,by = "V1", all = FALSE)[,2])
+#                         ## with 2947 activity obs. of 1 vars. As actLables is a factor, which need to be transfered to data frame
+#                         test.activity <- data.frame(merge(test.y, actLables,by = "V1", all = FALSE)[,2])
+                        test.activity <- data.frame(actLables[test.y[,1],2])
                         names(test.activity) <- "activity"
         
         
@@ -100,7 +101,7 @@ run.analysis <- function(dir) {
                 
                         dataMelt <- melt(data, id = c("subject","activity"))    ##melt data in to id variables and measure variables
                         dataDcast <- dcast(dataMelt, subject + activity ~ variable, mean)
-                        
+                        # dataDcast[,2] <- actLables[dataDcast[,2], 2]
                         ##alternative method     
                         ##library(plyr)
                         ##averages <- ddply(data, .(subject, activity), function(x) colMeans(x[,3:88]))
@@ -119,3 +120,4 @@ run.analysis <- function(dir) {
 }
 ##run function
 run.analysis(choose.dir())
+
