@@ -1,4 +1,5 @@
 library(dplyr)
+setwd(choose.dir())
 ##------1. Browsing dataset
 # README file
 readMe <- readLines("README.txt")
@@ -8,12 +9,11 @@ readMe
 featuresInfo <- readLines("features_info.txt")
 list.files("./test")
 
-nrow(xyTrain)
 
 ##------2. Merge training data
 
 
-##merge y_train and activity_labels
+##merge y_train and activity_labels AND Uses descriptive activity names to name the activities in the data set
 
 actLables <- read.table("activity_labels.txt")  ## get labels
 yTrain <- read.table("./train/y_train.txt")     ## extract y_train
@@ -36,7 +36,7 @@ xyTrain <- cbind(subject, xyTrain)
 
 nrow(xyTrain)
 
-##------3. Merge test data
+##------3. Merge test data AND Uses descriptive activity names to name the activities in the data set
 
 actLables <- read.table("activity_labels.txt")  ## get labels
 yTest <- read.table("./test/y_test.txt")     ## extract y_test
@@ -65,4 +65,17 @@ data <-rbind(xyTrain, xyTest)
 
 x <- grep("[Mm]ean|[Ss]td|activity|subject", colnames(data))
 data <- data[,x]
- 
+# Save the clean data.
+path <- file.path(choose.dir())
+
+write.table(data, path, row.names = FALSE, quote = FALSE)
+
+
+##------5. create independent tidy data set with the average of each variable for each activity and each subject.
+library(reshape2)
+dataMelt <- melt(data, id = c("subject","activity"))    ##melt data in to id variables and measure variables
+dataDcast <- dcast(dataMelt, subject + activity ~ variable, mean)
+
+
+
+
