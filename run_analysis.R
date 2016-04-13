@@ -65,10 +65,7 @@ data <-rbind(xyTrain, xyTest)
 
 x <- grep("[Mm]ean|[Ss]td|activity|subject", colnames(data))
 data <- data[,x]
-# Save the clean data.
-path <- file.path(choose.dir())
 
-write.table(data, path, row.names = FALSE, quote = FALSE)
 
 
 ##------5. create independent tidy data set with the average of each variable for each activity and each subject.
@@ -76,6 +73,12 @@ library(reshape2)
 dataMelt <- melt(data, id = c("subject","activity"))    ##melt data in to id variables and measure variables
 dataDcast <- dcast(dataMelt, subject + activity ~ variable, mean)
 
-
-
+##------6. output the datasets
+# Save the clean data.
+path <- file.path("cleanData.csv")
+write.csv(data, path, row.names = FALSE)
+##Save the aggregated datasets
+path <- file.path("dataDcast.csv")
+write.csv(dataDcast, path, row.names = FALSE)
+nrow(dataDcast)
 
