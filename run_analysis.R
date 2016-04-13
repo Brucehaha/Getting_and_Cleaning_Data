@@ -75,10 +75,10 @@ dataDcast <- dcast(dataMelt, subject + activity ~ variable, mean)
 
 ##------6. output the datasets
 # Save the clean data.
-path <- file.path("cleanData.csv")
-write.csv(data, path, row.names = FALSE)
+path <- file.path("cleanData.txt")
+write.table(data, path, row.names = FALSE)
 ##Save the aggregated datasets
-path <- file.path("dataDcast.csv")
-write.csv(dataDcast, path, row.names = FALSE)
-nrow(dataDcast)
+path <- file.path("dataDcast.txt")
+write.table(dataDcast, path, row.names = FALSE)
+
 
