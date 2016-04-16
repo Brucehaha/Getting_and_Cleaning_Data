@@ -92,7 +92,7 @@ run.analysis <- function(dir) {
         cat("[run_analysis.R]","outputing dataset...", "\n")
         ##------4. Extracts only the measurements on the mean and standard deviation for each measurement.
         
-                        x <- grep(".*mean.*|.*std.*|subject", colnames(data))
+                        x <- grep(".*mean.*|.*std.*|subject|activity", colnames(data))
                         data <- data[,x]
         
         
